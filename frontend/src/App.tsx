@@ -62,7 +62,8 @@ export const AppContent: React.FC = () => {
 
     const connectWS = () => {
       let wsUrl = '';
-      const envUrl = (typeof import.meta !== 'undefined' && import.meta.env && import.meta.env.VITE_API_BASE_URL) || '';
+      const envUrl = (typeof import.meta !== 'undefined' && import.meta.env && import.meta.env.VITE_API_BASE_URL)
+        || (window.location.hostname.includes('vercel.app') ? 'https://bhurakshak-oa9h.onrender.com' : '');
       if (envUrl) {
         const clean = envUrl.replace(/^https?:\/\//, '').replace(/\/+$/, '');
         const wsProto = envUrl.startsWith('https://') ? 'wss:' : 'ws:';

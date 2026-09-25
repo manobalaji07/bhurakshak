@@ -3,7 +3,10 @@ import { AnalyticsSummary, NodeState, Alert, NotificationItem, User } from '../t
 // In local/LAN mode (backend serves frontend) this is '' (same origin).
 // In cloud mode (Vercel + Render/Railway) set VITE_API_BASE_URL in Vercel settings.
 const rawBaseUrl = (typeof import.meta !== 'undefined' && import.meta.env && import.meta.env.VITE_API_BASE_URL) || '';
-const BASE_URL: string = rawBaseUrl ? rawBaseUrl.replace(/\/+$/, '') : '';
+const defaultRemoteUrl = typeof window !== 'undefined' && window.location.hostname.includes('vercel.app')
+  ? 'https://bhurakshak-oa9h.onrender.com'
+  : '';
+const BASE_URL: string = (rawBaseUrl || defaultRemoteUrl).replace(/\/+$/, '');
 
 async function fetchJson<T>(url: string, options: RequestInit = {}): Promise<T> {
   const token = localStorage.getItem('bhurakshak_token');

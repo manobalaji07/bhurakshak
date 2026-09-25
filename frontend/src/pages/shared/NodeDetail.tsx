@@ -15,6 +15,7 @@ export const NodeDetail: React.FC<NodeDetailProps> = ({ nodeId, onBack }) => {
   const [history, setHistory] = useState<NodeReading[]>([]);
   const [trends, setTrends] = useState<any>(null);
   const [loading, setLoading] = useState(true);
+  const [errorMsg, setErrorMsg] = useState<string | null>(null);
 
   useEffect(() => {
     let isMounted = true;
@@ -26,12 +27,16 @@ export const NodeDetail: React.FC<NodeDetailProps> = ({ nodeId, onBack }) => {
 
         if (isMounted) {
           setNodeData(details.node);
-          setHistory(details.recent_history);
+          setHistory(details.recent_history || []);
           setTrends(trendData);
           setLoading(false);
+          setErrorMsg(null);
         }
-      } catch (err) {
+      } catch (err: any) {
         console.error('Error loading node details:', err);
+        if (isMounted) {
+          setErrorMsg(err?.message || 'Failed to fetch node telemetry from backend');
+        }
       }
     };
 
@@ -43,11 +48,31 @@ export const NodeDetail: React.FC<NodeDetailProps> = ({ nodeId, onBack }) => {
     };
   }, [nodeId]);
 
-  if (loading || !nodeData) {
+  if (loading && !nodeData) {
     return (
-      <div className="py-20 text-center text-slate-500 font-mono">
+      <div className="py-20 text-center text-slate-500 font-mono space-y-4">
         <Activity className="w-8 h-8 mx-auto mb-2 animate-spin text-cyan-400" />
-        Loading {nodeId} telemetry pipeline...
+        <div>Loading {nodeId} telemetry pipeline...</div>
+        {errorMsg && (
+          <div className="text-xs text-rose-500 max-w-md mx-auto bg-rose-50 border border-rose-200 p-3 rounded-lg font-sans">
+            <strong>Backend Connection Issue:</strong> {errorMsg}
+          </div>
+        )}
+      </div>
+    );
+  }
+
+  if (!nodeData) {
+    return (
+      <div className="py-20 text-center text-slate-500 font-mono space-y-4">
+        <AlertTriangle className="w-8 h-8 mx-auto text-amber-500" />
+        <div>Node {nodeId} data not found.</div>
+        <button
+          onClick={onBack}
+          className="px-4 py-2 bg-slate-900 text-white rounded-lg text-xs"
+        >
+          &larr; Back to Dashboard
+        </button>
       </div>
     );
   }
