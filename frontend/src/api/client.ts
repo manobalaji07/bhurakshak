@@ -1,8 +1,9 @@
 import { AnalyticsSummary, NodeState, Alert, NotificationItem, User } from '../types';
 
 // In local/LAN mode (backend serves frontend) this is '' (same origin).
-// In cloud mode (Vercel + Railway) set VITE_API_BASE_URL in .env.production.
-const BASE_URL: string = (import.meta.env.VITE_API_BASE_URL as string) || '';
+// In cloud mode (Vercel + Render/Railway) set VITE_API_BASE_URL in Vercel settings.
+const rawBaseUrl = (typeof import.meta !== 'undefined' && import.meta.env && import.meta.env.VITE_API_BASE_URL) || '';
+const BASE_URL: string = rawBaseUrl ? rawBaseUrl.replace(/\/+$/, '') : '';
 
 async function fetchJson<T>(url: string, options: RequestInit = {}): Promise<T> {
   const token = localStorage.getItem('bhurakshak_token');
@@ -15,7 +16,10 @@ async function fetchJson<T>(url: string, options: RequestInit = {}): Promise<T> 
     headers['Authorization'] = `Bearer ${token}`;
   }
 
-  const response = await fetch(url, { ...options, headers });
+  const endpoint = url.startsWith('/') ? url : `/${url}`;
+  const fullUrl = BASE_URL ? `${BASE_URL}${endpoint}` : endpoint;
+
+  const response = await fetch(fullUrl, { ...options, headers });
   if (!response.ok) {
     const errorText = await response.text();
     throw new Error(`API Error (${response.status}): ${errorText}`);

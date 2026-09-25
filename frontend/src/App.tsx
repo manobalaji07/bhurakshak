@@ -61,9 +61,17 @@ export const AppContent: React.FC = () => {
     let reconnectTimeout: any = null;
 
     const connectWS = () => {
-      const protocol = window.location.protocol === 'https:' ? 'wss:' : 'ws:';
-      const host = window.location.hostname === 'localhost' ? 'localhost:8000' : window.location.host;
-      const wsUrl = `${protocol}//${host}/ws/telemetry`;
+      let wsUrl = '';
+      const envUrl = (typeof import.meta !== 'undefined' && import.meta.env && import.meta.env.VITE_API_BASE_URL) || '';
+      if (envUrl) {
+        const clean = envUrl.replace(/^https?:\/\//, '').replace(/\/+$/, '');
+        const wsProto = envUrl.startsWith('https://') ? 'wss:' : 'ws:';
+        wsUrl = `${wsProto}//${clean}/ws/telemetry`;
+      } else {
+        const protocol = window.location.protocol === 'https:' ? 'wss:' : 'ws:';
+        const host = window.location.hostname === 'localhost' ? 'localhost:8000' : window.location.host;
+        wsUrl = `${protocol}//${host}/ws/telemetry`;
+      }
 
       ws = new WebSocket(wsUrl);
 
