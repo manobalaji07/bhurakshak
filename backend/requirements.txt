@@ -1,0 +1,15 @@
+fastapi>=0.100.0
+uvicorn[standard]>=0.22.0
+pydantic>=2.0.0
+pydantic-settings>=2.0.0
+scikit-learn
+joblib
+pandas
+numpy
+python-jose[cryptography]
+passlib[bcrypt]
+python-multipart
+websockets
+requests
+motor>=3.3.0
+pymongo>=4.6.0

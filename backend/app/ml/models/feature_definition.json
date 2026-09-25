@@ -1,0 +1,33 @@
+{
+  "window_size": 30,
+  "signals": [
+    "Ultrasonic_Distance_mm",
+    "Accel_X",
+    "Accel_Y",
+    "Accel_Z",
+    "Gyro_X",
+    "Gyro_Y",
+    "Gyro_Z",
+    "MPU_Temperature_C",
+    "SW420",
+    "MQ2_Raw",
+    "Tilt_deg",
+    "Acceleration_Magnitude",
+    "Gyro_Magnitude",
+    "Tilt_Rate",
+    "Distance_Change",
+    "Acceleration_Jerk",
+    "Tilt_Rate_Change"
+  ],
+  "statistics": [
+    "missing_count",
+    "mean",
+    "std",
+    "min",
+    "max",
+    "range",
+    "rms",
+    "change"
+  ],
+  "feature_count": 136
+}

@@ -1,0 +1,38 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  body {
+    @apply bg-[#F0FDF9] text-slate-800 min-h-screen overflow-x-hidden font-sans;
+    font-feature-settings: "cv02", "cv03", "cv04", "cv11";
+  }
+
+  /* Clean light scrollbar */
+  ::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+  }
+  ::-webkit-scrollbar-track {
+    background: #F0FDF9;
+  }
+  ::-webkit-scrollbar-thumb {
+    background: #CBD5E1;
+    border-radius: 4px;
+  }
+  ::-webkit-scrollbar-thumb:hover {
+    background: #94A3B8;
+  }
+}
+
+.glass-card {
+  @apply bg-white border border-slate-200/80 rounded-2xl shadow-sm shadow-slate-200/60;
+}
+
+.glass-card-hover {
+  @apply glass-card hover:border-slate-300 hover:shadow-md transition-all duration-300;
+}
+
+.font-serif-header {
+  font-family: 'Lora', 'Playfair Display', Georgia, serif;
+}

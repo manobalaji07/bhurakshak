@@ -1,0 +1,36 @@
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+.Python
+*.egg-info/
+dist/
+build/
+
+# Environment & secrets
+backend/.env
+*.env.local
+
+# SQLite database (do NOT commit — regenerated on first run)
+backend/app/db/*.db
+backend/*.db
+
+# ML model files (large binary — use Git LFS or upload separately)
+# backend/app/ml/models/*.joblib
+
+# Frontend build output
+frontend/dist/
+frontend/node_modules/
+
+# IDE
+.vscode/
+.idea/
+*.suo
+
+# Logs
+*.log
+logs/
+
+# OS
+.DS_Store
+Thumbs.db
